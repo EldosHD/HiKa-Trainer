@@ -6,7 +6,7 @@ from curses.textpad import Textbox, rectangle
 import random
 
 
-ver = "1.0.0"
+ver = "1.0.1"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -29,9 +29,12 @@ gaSeries = {'ga': 'が', 'gi': 'ぎ', 'gu': 'ぐ', 'ge': 'げ', 'go': 'ご'}
 choices = ['a', 'ka', 'ga']
 defaulSeries = ['a']
 
-def getChar(series: dict) -> str:
+def getChar(series: dict, k: str="") -> str:
     # get random key
-    key = list(series.keys())[random.randint(0, len(series)-1)]
+    while True:
+        key = list(series.keys())[random.randint(0, len(series)-1)]
+        if key != k:
+            break
     return series[key], key
 
 def main(stdscr: curses.window, args: argparse.Namespace, series: dict):
@@ -39,6 +42,7 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict):
     inputString = ""
     won = False
     timesWon = 0
+    c, k = getChar(series) # c = character, k = key
     try:
         while True:
             if remainingRepeats <= 0:
@@ -48,8 +52,8 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict):
                 stdscr.addstr(0, 0, "That was correct!")
                 stdscr.addstr(1, 0, "Press any key to continue")
                 stdscr.getch()
-                won = False
-            c,k = getChar(series=series)
+                won = False    
+            c,k = getChar(series=series, k=k) # get new character and key
             stdscr.clear()
             stdscr.addstr(0, 0, "Press ctrl + c to quit")
             stdscr.addstr(2, 0, f"Remaining repeats: {remainingRepeats}")
@@ -67,6 +71,8 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict):
             box = Textbox(editwin)
             box.edit()
             inputString = box.gather().lower().strip()
+
+            # check if input is correct
             if inputString == k:
                 won = True
                 inputString = ""
