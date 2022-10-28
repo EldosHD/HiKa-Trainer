@@ -4,9 +4,10 @@ import argparse
 import curses
 from curses.textpad import Textbox, rectangle
 import random
+from typing import Tuple
 
 
-ver = "1.0.2"
+ver = "1.0.3"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -39,7 +40,7 @@ def getChar(series: dict, k: str = "") -> str:
     return series[key], key
 
 
-def main(stdscr: curses.window, args: argparse.Namespace, series: dict):
+def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple[int, int]:
     remainingRepeats = args.repeat
     inputString = ""
     won = False
@@ -50,12 +51,6 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict):
         while True:
             if remainingRepeats == 0:
                 break
-            if won:
-                stdscr.clear()
-                stdscr.addstr(0, 0, "That was correct!")
-                stdscr.addstr(1, 0, "Press any key to continue")
-                stdscr.getch()
-                won = False
             c, k = getChar(series=series, k=k)  # get new character and key
             stdscr.clear()
             stdscr.addstr(0, 0, "Press ctrl + c to quit")
@@ -68,8 +63,8 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict):
                 6, 0, "Enter your answer (send answer with ctrl + g): ")
 
             # rectangle surrounds the input field
-            rectangle(stdscr, 7, 0, 13, 31)
-            editwin = curses.newwin(5, 30, 8, 1)
+            rectangle(stdscr, 7, 0, 9, 31)
+            editwin = curses.newwin(1, 30, 8, 1)
 
             stdscr.refresh()
 
@@ -82,6 +77,19 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict):
                 won = True
                 inputString = ""
                 timesWon += 1
+
+            if won:
+                stdscr.clear()
+                stdscr.addstr(0, 0, "That was correct!", curses.A_BOLD)
+                stdscr.addstr(1, 0, "Press any key to continue")
+                stdscr.getch()
+                won = False
+            else:
+                stdscr.clear()
+                stdscr.addstr(0, 0, f"That was wrong!", curses.A_BOLD)
+                stdscr.addstr(1, 0, f"The correct answer to {c} was {k}")
+                stdscr.addstr(2, 0, "Press any key to continue")
+                stdscr.getch()
 
             remainingRepeats -= 1
             timesPlayed += 1
