@@ -7,7 +7,7 @@ import random
 from typing import Tuple
 
 
-ver = "1.0.3"
+ver = "1.0.4"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -31,34 +31,53 @@ choices = ['a', 'ka', 'ga']
 defaulSeries = ['a']
 
 
-def getChar(series: dict, k: str = "") -> str:
+def getChar(args: argparse.Namespace, series: dict, usedChars: list, unusedChars: list, k: str = "") -> str:
+    """Returns a random character from the series and the key of the character. series is a dict with the keys being the keys and the values being the characters. k is the key of the last character."""
     # get random key
     while True:
         key = list(series.keys())[random.randint(0, len(series)-1)]
-        if key != k:
+        if args.no_true_shuffle:
+            if key != k and key not in usedChars:
+                usedChars.append(key)
+                unusedChars.remove(key)
+                break
+        elif key != k:
             break
-    return series[key], key
+    return series[key], key, usedChars, unusedChars
 
 
 def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple[int, int]:
     remainingRepeats = args.repeat
+    usedChars = []
+    unusedChars = list(series.keys())
     inputString = ""
     won = False
     timesWon = 0
     timesPlayed = 0
-    c, k = getChar(series)  # c = character, k = key
+    # get random key
+    c, k, usedChars, unusedChars = getChar(args, series, usedChars=usedChars, unusedChars=unusedChars) 
+    # resetting charlists for the beginning
+    usedChars = []
+    unusedChars = list(series.keys())
     try:
         while True:
             if remainingRepeats == 0:
                 break
-            c, k = getChar(series=series, k=k)  # get new character and key
+            if args.no_true_shuffle and len(unusedChars) == 0:
+                unusedChars = list(series.keys())
+                usedChars = []
+            # c = character, k = key, usedChars = list of used characters, unusedChars = list of unused characters
+            c, k, usedChars, unusedChars = getChar(
+                args, series, usedChars, unusedChars, k)
             stdscr.clear()
             stdscr.addstr(0, 0, "Press ctrl + c to quit")
-            stdscr.addstr(2, 0, f"You have won {timesWon} out of {timesPlayed} times")
+            stdscr.addstr(
+                2, 0, f"You have won {timesWon} out of {timesPlayed} times")
             stdscr.addstr(4, 0, f"Enter the name of {c}")
             if args.debug:
                 stdscr.addstr(
                     4, 50, f"DEBUG: k: {k}, c: {c}, lastInput: {inputString}, won: {won}")
+                stdscr.addstr(5, 50, f"DEBUG: usedChars: {usedChars} unusedChars: {unusedChars}")
             stdscr.addstr(
                 6, 0, "Enter your answer (send answer with ctrl + g): ")
 
@@ -110,6 +129,8 @@ if __name__ == '__main__':
         '-d', '--debug', help='Enable debug mode', action='store_true')
     parser.add_argument(
         '-v', '--verbose', help='increase output verbosity', action='count', default=0)
+    parser.add_argument(
+        '--no-true-shuffle', help='let all the characters be asked before a character is repeated', action='store_true')
     parser.add_argument('-V', '--version', action='version',
                         version=f'%(prog)s {ver}')
 
