@@ -26,8 +26,33 @@ License: GPLv3+
 aSeries = {'a': 'あ', 'i': 'い', 'u': 'う', 'e': 'え', 'o': 'お'}
 kaSeries = {'ka': 'か', 'ki': 'き', 'ku': 'く', 'ke': 'け', 'ko': 'こ'}
 gaSeries = {'ga': 'が', 'gi': 'ぎ', 'gu': 'ぐ', 'ge': 'げ', 'go': 'ご'}
+saSeries = {'sa': 'さ', 'shi': 'し', 'su': 'す', 'se': 'せ', 'so': 'そ'}
+zaSeries = {'za': 'ざ', 'ji': 'じ', 'zu': 'ず', 'ze': 'ぜ', 'zo': 'ぞ'}
+taSeries = {'ta': 'た', 'chi': 'ち', 'tsu': 'つ', 'te': 'て', 'to': 'と'}
+daSeries = {'da': 'だ', 'ji': 'ぢ', 'zu': 'づ', 'de': 'で', 'do': 'ど'}
+naSeries = {'na': 'な', 'ni': 'に', 'nu': 'ぬ', 'ne': 'ね', 'no': 'の'}
+haSeries = {'ha': 'は', 'hi': 'ひ', 'fu': 'ふ', 'he': 'へ', 'ho': 'ほ'}
+baSeries = {'ba': 'ば', 'bi': 'び', 'bu': 'ぶ', 'be': 'べ', 'bo': 'ぼ'}
+paSeries = {'pa': 'ぱ', 'pi': 'ぴ', 'pu': 'ぷ', 'pe': 'ぺ', 'po': 'ぽ'}
+maSeries = {'ma': 'ま', 'mi': 'み', 'mu': 'む', 'me': 'め', 'mo': 'も'}
+yaSeries = {'ya': 'や', 'yu': 'ゆ', 'yo': 'よ'}
+raSeries = {'ra': 'ら', 'ri': 'り', 'ru': 'る', 're': 'れ', 'ro': 'ろ'}
+waSeries = {'wa': 'わ', 'wo': 'を'}
+nSeries = {'n': 'ん'}
 
-choices = ['a', 'ka', 'ga']
+kySeries = {'ky': 'きゃ', 'kyu': 'きゅ', 'kyo': 'きょ'}
+gySeries = {'gy': 'ぎゃ', 'gyu': 'ぎゅ', 'gyo': 'ぎょ'}
+shSeries = {'sh': 'しゃ', 'shu': 'しゅ', 'sho': 'しょ'}
+jSeries = {'j': 'じゃ', 'ju': 'じゅ', 'jo': 'じょ'}
+chSeries = {'ch': 'ちゃ', 'chu': 'ちゅ', 'cho': 'ちょ'}
+nySeries = {'ny': 'にゃ', 'nyu': 'にゅ', 'nyo': 'にょ'}
+hySeries = {'hy': 'ひゃ', 'hyu': 'ひゅ', 'hyo': 'ひょ'}
+bySeries = {'by': 'びゃ', 'byu': 'びゅ', 'byo': 'びょ'}
+pySeries = {'py': 'ぴゃ', 'pyu': 'ぴゅ', 'pyo': 'ぴょ'}
+mySeries = {'my': 'みゃ', 'myu': 'みゅ', 'myo': 'みょ'}
+rySeries = {'ry': 'りゃ', 'ryu': 'りゅ', 'ryo': 'りょ'}
+
+choices = ['a', 'ka', 'ga', 'sa', 'za', 'ta', 'da', 'na', 'ha', 'ba', 'pa', 'ma', 'ya', 'ra', 'wa', 'n', 'ky', 'gy', 'sh', 'j', 'ch', 'ny', 'hy', 'by', 'py', 'my', 'ry'] 
 defaulSeries = ['a']
 
 
@@ -144,6 +169,35 @@ if __name__ == '__main__':
             series.update(kaSeries)
         elif s == 'ga':
             series.update(gaSeries)
+        elif s == 'sa':
+            series.update(saSeries)
+        elif s == 'za':
+            series.update(zaSeries)
+        elif s == 'ta':
+            series.update(taSeries)
+        elif s == 'da':
+            series.update(daSeries)
+        elif s == 'na':
+            series.update(naSeries)
+        elif s == 'ha':
+            series.update(haSeries)
+        elif s == 'ba':
+            series.update(baSeries)
+        elif s == 'pa':
+            series.update(paSeries)
+        elif s == 'ma':
+            series.update(maSeries)
+        elif s == 'ya':
+            series.update(yaSeries)
+        elif s == 'ra':
+            series.update(raSeries)
+        elif s == 'wa':
+            series.update(waSeries)
+        elif s == 'n':
+            series.update(nSeries)
+        
+
+
 
     stdscr = curses.initscr()
     curses.noecho()
