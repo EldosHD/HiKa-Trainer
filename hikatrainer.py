@@ -7,7 +7,7 @@ import random
 from typing import Tuple
 
 
-ver = "1.1.0"
+ver = "1.1.1"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -147,9 +147,9 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description=description, epilog=epilog, formatter_class=argparse.RawDescriptionHelpFormatter)
+
+    # general options
     general = parser.add_argument_group("general options")
-    general.add_argument(
-        '-r', '--repeat', help='how often the training should be repeated. Default is 10. If this value is set to a negative number it will repeat until you cancel the program', type=int, default=10)
     general.add_argument(
         '-d', '--debug', help='Enable debug mode', action='store_true')
     general.add_argument(
@@ -158,6 +158,13 @@ if __name__ == '__main__':
         '--no-true-shuffle', help='let all the characters be asked before a character is repeated', action='store_true')
     general.add_argument('-V', '--version', action='version',
                         version=f'%(prog)s {ver}')
+    # repeat options
+    repeat = general.add_mutually_exclusive_group()
+    repeat.add_argument(
+        '-r', '--repeat', help='how often the training should be repeated. Default is 10. If this value is set to a negative number it will repeat until you cancel the program', type=int, default=10)
+    repeat.add_argument('-e', '--endless', help='repeat until you cancel the program. This is the same as "-r -1"', action='store_true')
+
+    # series options
     seriesGroup = parser.add_mutually_exclusive_group()
     seriesGroup.add_argument(
         '-s', '--series', help=f'series to train. If no series option is given this will use the default series. The default is {defaulSeries}', nargs='+', default=defaulSeries)
@@ -166,6 +173,10 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    if args.endless:
+        args.repeat = -1
+
+    # check which series to use
     series = {}
     if args.all:
         series = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
