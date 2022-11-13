@@ -7,7 +7,7 @@ import random
 from typing import Tuple
 
 
-ver = "1.0.4"
+ver = "1.1.0"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -15,6 +15,9 @@ TODO: Insert description
 Example:
 hikatrainer.py --series ka ga
 This command would let you train the ka and ga series.
+
+hikatrainer.py --all
+This command would let you train every series. 
 
 """
 epilog = f"""
@@ -52,7 +55,6 @@ pySeries = {'py': 'ぴゃ', 'pyu': 'ぴゅ', 'pyo': 'ぴょ'}
 mySeries = {'my': 'みゃ', 'myu': 'みゅ', 'myo': 'みょ'}
 rySeries = {'ry': 'りゃ', 'ryu': 'りゅ', 'ryo': 'りょ'}
 
-choices = ['a', 'ka', 'ga', 'sa', 'za', 'ta', 'da', 'na', 'ha', 'ba', 'pa', 'ma', 'ya', 'ra', 'wa', 'n', 'ky', 'gy', 'sh', 'j', 'ch', 'ny', 'hy', 'by', 'py', 'my', 'ry'] 
 defaulSeries = ['a']
 
 
@@ -145,59 +147,91 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description=description, epilog=epilog, formatter_class=argparse.RawDescriptionHelpFormatter)
-
-    parser.add_argument(
-        '-s', '--series', help=f'series to train. The default is {defaulSeries}', choices=choices, nargs='+', default=defaulSeries)
-    parser.add_argument(
+    general = parser.add_argument_group("general options")
+    general.add_argument(
         '-r', '--repeat', help='how often the training should be repeated. Default is 10. If this value is set to a negative number it will repeat until you cancel the program', type=int, default=10)
-    parser.add_argument(
+    general.add_argument(
         '-d', '--debug', help='Enable debug mode', action='store_true')
-    parser.add_argument(
+    general.add_argument(
         '-v', '--verbose', help='increase output verbosity', action='count', default=0)
-    parser.add_argument(
+    general.add_argument(
         '--no-true-shuffle', help='let all the characters be asked before a character is repeated', action='store_true')
-    parser.add_argument('-V', '--version', action='version',
+    general.add_argument('-V', '--version', action='version',
                         version=f'%(prog)s {ver}')
+    seriesGroup = parser.add_mutually_exclusive_group()
+    seriesGroup.add_argument(
+        '-s', '--series', help=f'series to train. If no series option is given this will use the default series. The default is {defaulSeries}', nargs='+', default=defaulSeries)
+    seriesGroup.add_argument('-a', '--all', help='train all series', action='store_true')
+    seriesGroup.add_argument('-l', '--list', help='list every possible series', action='store_true')
 
     args = parser.parse_args()
 
     series = {}
-    for s in args.series:
-        if s == 'a':
-            series.update(aSeries)
-        elif s == 'ka':
-            series.update(kaSeries)
-        elif s == 'ga':
-            series.update(gaSeries)
-        elif s == 'sa':
-            series.update(saSeries)
-        elif s == 'za':
-            series.update(zaSeries)
-        elif s == 'ta':
-            series.update(taSeries)
-        elif s == 'da':
-            series.update(daSeries)
-        elif s == 'na':
-            series.update(naSeries)
-        elif s == 'ha':
-            series.update(haSeries)
-        elif s == 'ba':
-            series.update(baSeries)
-        elif s == 'pa':
-            series.update(paSeries)
-        elif s == 'ma':
-            series.update(maSeries)
-        elif s == 'ya':
-            series.update(yaSeries)
-        elif s == 'ra':
-            series.update(raSeries)
-        elif s == 'wa':
-            series.update(waSeries)
-        elif s == 'n':
-            series.update(nSeries)
-        
-
-
+    if args.all:
+        series = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
+    elif args.list:
+        print("The following series are available:")
+        print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, ga, za, da, ba, pa, kya, sha, cha, nya, hya, by, py, my, ry")
+        exit(0)
+    else:
+        for s in args.series:
+            if s == 'a':
+                series.update(aSeries)
+            elif s == 'ka':
+                series.update(kaSeries)
+            elif s == 'ga':
+                series.update(gaSeries)
+            elif s == 'sa':
+                series.update(saSeries)
+            elif s == 'za':
+                series.update(zaSeries)
+            elif s == 'ta':
+                series.update(taSeries)
+            elif s == 'da':
+                series.update(daSeries)
+            elif s == 'na':
+                series.update(naSeries)
+            elif s == 'ha':
+                series.update(haSeries)
+            elif s == 'ba':
+                series.update(baSeries)
+            elif s == 'pa':
+                series.update(paSeries)
+            elif s == 'ma':
+                series.update(maSeries)
+            elif s == 'ya':
+                series.update(yaSeries)
+            elif s == 'ra':
+                series.update(raSeries)
+            elif s == 'wa':
+                series.update(waSeries)
+            elif s == 'n':
+                series.update(nSeries)
+            elif s == 'ky':
+                series.update(kySeries)
+            elif s == 'gy':
+                series.update(gySeries)
+            elif s == 'sh':
+                series.update(shSeries)
+            elif s == 'j':
+                series.update(jSeries)
+            elif s == 'ch':
+                series.update(chSeries)
+            elif s == 'ny':
+                series.update(nySeries)
+            elif s == 'hy':
+                series.update(hySeries)
+            elif s == 'by':
+                series.update(bySeries)
+            elif s == 'py':
+                series.update(pySeries)
+            elif s == 'my':
+                series.update(mySeries)
+            elif s == 'ry':
+                series.update(rySeries)
+            else:
+                print(f"series {s} not found")
+                exit(1)
 
     stdscr = curses.initscr()
     curses.noecho()
