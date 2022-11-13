@@ -5,9 +5,10 @@ import curses
 from curses.textpad import Textbox, rectangle
 import random
 from typing import Tuple
+from collections import Counter
 
 
-ver = "1.1.1"
+ver = "1.1.2"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -86,6 +87,7 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
     # resetting charlists for the beginning
     usedChars = []
     unusedChars = list(series.keys())
+    wrongChars = []
     try:
         while True:
             if remainingRepeats == 0:
@@ -131,6 +133,8 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
                 stdscr.getch()
                 won = False
             else:
+                wrongChars.append(k)
+
                 stdscr.clear()
                 stdscr.addstr(0, 0, f"That was wrong!", curses.A_BOLD)
                 stdscr.addstr(1, 0, f"The correct answer to {c} was {k}")
@@ -141,7 +145,7 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
             timesPlayed += 1
     except KeyboardInterrupt:
         pass
-    return timesWon, timesPlayed
+    return timesWon, timesPlayed, wrongChars
 
 
 if __name__ == '__main__':
@@ -249,5 +253,9 @@ if __name__ == '__main__':
     curses.cbreak()
     stdscr.keypad(True)
 
-    timesWon, timesPlayed = curses.wrapper(main, args, series)
+    timesWon, timesPlayed, wrongChars = curses.wrapper(main, args, series)
+    print()
     print(f"You won {timesWon} out of {timesPlayed} times!")
+    print()
+    for k, v in Counter(wrongChars).items():
+        print(f"{series.get(k)} ({k}) was wrong {v} times")
