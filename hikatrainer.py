@@ -173,6 +173,7 @@ if __name__ == '__main__':
     seriesGroup.add_argument(
         '-s', '--series', help=f'series to train. If no series option is given this will use the default series. The default is {defaulSeries}', nargs='+', default=defaulSeries)
     seriesGroup.add_argument('-a', '--all', help='train all series', action='store_true')
+    seriesGroup.add_argument('-c', '--custom', help='train a custom series. This option takes a list of characters. If you want to use a space in a character you have to use a backslash before the space. Example: "a b c" -> "a\\ b\\ c"', nargs='+')
     seriesGroup.add_argument('-l', '--list', help='list every possible series', action='store_true')
 
     args = parser.parse_args()
@@ -188,6 +189,15 @@ if __name__ == '__main__':
         print("The following series are available:")
         print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, ga, za, da, ba, pa, kya, sha, cha, nya, hya, by, py, my, ry")
         exit(0)
+    elif args.custom:
+        for char in args.custom:
+            char = char.replace("\\ ", " ")
+            allSeries = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
+            if char in allSeries:
+                series[char] = allSeries[char]
+            else:
+                print(f'Character "{char}" not found')
+                exit(1)
     else:
         for s in args.series:
             if s == 'a':
