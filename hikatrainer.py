@@ -188,7 +188,7 @@ if __name__ == '__main__':
         series = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
     elif args.list:
         print("The following series are available:")
-        print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, ga, za, da, ba, pa, kya, sha, cha, nya, hya, bya, pya, mya, rya")
+        print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, n, ga, za, da, ba, pa, kya, sha, cha, nya, hya, bya, pya, mya, rya")
         exit(0)
     elif args.custom:
         for char in args.custom:
