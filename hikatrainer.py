@@ -8,7 +8,7 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.1.5"
+ver = "1.1.6"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -188,7 +188,7 @@ if __name__ == '__main__':
         series = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
     elif args.list:
         print("The following series are available:")
-        print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, ga, za, da, ba, pa, kya, sha, cha, nya, hya, by, py, my, ry")
+        print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, ga, za, da, ba, pa, kya, sha, cha, nya, hya, bya, pya, mya, rya")
         exit(0)
     elif args.custom:
         for char in args.custom:
@@ -233,27 +233,27 @@ if __name__ == '__main__':
                 series.update(waSeries)
             elif s == 'n':
                 series.update(nSeries)
-            elif s == 'ky':
+            elif s == 'kya':
                 series.update(kySeries)
-            elif s == 'gy':
+            elif s == 'gya':
                 series.update(gySeries)
-            elif s == 'sh':
+            elif s == 'sha':
                 series.update(shSeries)
-            elif s == 'j':
+            elif s == 'ja':
                 series.update(jSeries)
-            elif s == 'ch':
+            elif s == 'cha':
                 series.update(chSeries)
-            elif s == 'ny':
+            elif s == 'nya':
                 series.update(nySeries)
-            elif s == 'hy':
+            elif s == 'hya':
                 series.update(hySeries)
-            elif s == 'by':
+            elif s == 'bya':
                 series.update(bySeries)
-            elif s == 'py':
+            elif s == 'pya':
                 series.update(pySeries)
-            elif s == 'my':
+            elif s == 'mya':
                 series.update(mySeries)
-            elif s == 'ry':
+            elif s == 'rya':
                 series.update(rySeries)
             else:
                 print(f"series {s} not found")
