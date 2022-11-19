@@ -8,7 +8,7 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.1.3"
+ver = "1.1.4"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -44,17 +44,17 @@ raSeries = {'ra': 'ら', 'ri': 'り', 'ru': 'る', 're': 'れ', 'ro': 'ろ'}
 waSeries = {'wa': 'わ', 'wo': 'を'}
 nSeries = {'n': 'ん'}
 
-kySeries = {'ky': 'きゃ', 'kyu': 'きゅ', 'kyo': 'きょ'}
-gySeries = {'gy': 'ぎゃ', 'gyu': 'ぎゅ', 'gyo': 'ぎょ'}
-shSeries = {'sh': 'しゃ', 'shu': 'しゅ', 'sho': 'しょ'}
-jSeries = {'j': 'じゃ', 'ju': 'じゅ', 'jo': 'じょ'}
-chSeries = {'ch': 'ちゃ', 'chu': 'ちゅ', 'cho': 'ちょ'}
-nySeries = {'ny': 'にゃ', 'nyu': 'にゅ', 'nyo': 'にょ'}
-hySeries = {'hy': 'ひゃ', 'hyu': 'ひゅ', 'hyo': 'ひょ'}
-bySeries = {'by': 'びゃ', 'byu': 'びゅ', 'byo': 'びょ'}
-pySeries = {'py': 'ぴゃ', 'pyu': 'ぴゅ', 'pyo': 'ぴょ'}
-mySeries = {'my': 'みゃ', 'myu': 'みゅ', 'myo': 'みょ'}
-rySeries = {'ry': 'りゃ', 'ryu': 'りゅ', 'ryo': 'りょ'}
+kySeries = {'kya': 'きゃ', 'kyu': 'きゅ', 'kyo': 'きょ'}
+gySeries = {'gya': 'ぎゃ', 'gyu': 'ぎゅ', 'gyo': 'ぎょ'}
+shSeries = {'sha': 'しゃ', 'shu': 'しゅ', 'sho': 'しょ'}
+jSeries = {'ja': 'じゃ', 'ju': 'じゅ', 'jo': 'じょ'}
+chSeries = {'cha': 'ちゃ', 'chu': 'ちゅ', 'cho': 'ちょ'}
+nySeries = {'nya': 'にゃ', 'nyu': 'にゅ', 'nyo': 'にょ'}
+hySeries = {'hya': 'ひゃ', 'hyu': 'ひゅ', 'hyo': 'ひょ'}
+bySeries = {'bya': 'びゃ', 'byu': 'びゅ', 'byo': 'びょ'}
+pySeries = {'pya': 'ぴゃ', 'pyu': 'ぴゅ', 'pyo': 'ぴょ'}
+mySeries = {'mya': 'みゃ', 'myu': 'みゅ', 'myo': 'みょ'}
+rySeries = {'rya': 'りゃ', 'ryu': 'りゅ', 'ryo': 'りょ'}
 
 defaulSeries = ['a']
 
