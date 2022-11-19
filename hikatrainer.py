@@ -8,7 +8,7 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.1.4"
+ver = "1.1.5"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -106,7 +106,8 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
             if args.debug:
                 stdscr.addstr(
                     4, 50, f"DEBUG: k: {k}, c: {c}, lastInput: {inputString}, won: {won}")
-                stdscr.addstr(5, 50, f"DEBUG: usedChars: {usedChars} unusedChars: {unusedChars}")
+                stdscr.addstr(20, 0, f"DEBUG: usedChars: {usedChars}")
+                stdscr.addstr(22, 0, f"DEBUG: unusedChars: {unusedChars}")
             stdscr.addstr(
                 6, 0, "Enter your answer (send answer with ctrl + g): ")
 
