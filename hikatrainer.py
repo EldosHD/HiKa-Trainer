@@ -8,7 +8,7 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.1.2"
+ver = "1.1.3"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
