@@ -81,6 +81,7 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
         remainingRepeats = args.repeat
     elif args.series_repeat != None:
         remainingRepeats = args.series_repeat * len(series)
+        args.no_true_shuffle = True
     elif args.endless:
         remainingRepeats = -1
     else:
