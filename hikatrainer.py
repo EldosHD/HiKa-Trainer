@@ -8,7 +8,7 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.1.6"
+ver = "1.1.7"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -75,7 +75,16 @@ def getChar(args: argparse.Namespace, series: dict, usedChars: list, unusedChars
 
 
 def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple[int, int]:
-    remainingRepeats = args.repeat
+    # setting remaining repeats to the length of the series if it is not set manually
+    if args.repeat != None:
+        remainingRepeats = args.repeat
+    elif args.series_repeat != None:
+        remainingRepeats = args.series_repeat * len(series)
+    elif args.endless:
+        remainingRepeats = -1
+    else:
+        print("Error: Something went wrong with the repeats. Please report this bug.")
+
     usedChars = []
     unusedChars = list(series.keys())
     inputString = ""
@@ -166,8 +175,9 @@ if __name__ == '__main__':
     # repeat options
     repeat = general.add_mutually_exclusive_group()
     repeat.add_argument(
-        '-r', '--repeat', help='how often the training should be repeated. Default is 10. If this value is set to a negative number it will repeat until you cancel the program', type=int, default=10)
+        '-r', '--repeat', help='how often the training should be repeated. Default is 10. If this value is set to a negative number it will repeat until you cancel the program', type=int, default=None)
     repeat.add_argument('-e', '--endless', help='repeat until you cancel the program. This is the same as "-r -1"', action='store_true')
+    repeat.add_argument('-R', '--series-repeat', help='repeat the series a certain amount of times', type=int, default=None)
 
     # series options
     seriesGroup = parser.add_mutually_exclusive_group()
