@@ -8,7 +8,7 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.1.7"
+ver = "1.1.8"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -75,6 +75,7 @@ def getChar(args: argparse.Namespace, series: dict, usedChars: list, unusedChars
 
 
 def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple[int, int]:
+    remainingRepeats = 10
     # setting remaining repeats to the length of the series if it is not set manually
     if args.repeat != None:
         remainingRepeats = args.repeat
@@ -83,8 +84,7 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
     elif args.endless:
         remainingRepeats = -1
     else:
-        print("Error: Something went wrong with the repeats. Please report this bug.")
-
+        pass
     usedChars = []
     unusedChars = list(series.keys())
     inputString = ""
@@ -92,7 +92,8 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
     timesWon = 0
     timesPlayed = 0
     # get random key
-    c, k, usedChars, unusedChars = getChar(args, series, usedChars=usedChars, unusedChars=unusedChars) 
+    c, k, usedChars, unusedChars = getChar(
+        args, series, usedChars=usedChars, unusedChars=unusedChars)
     # resetting charlists for the beginning
     usedChars = []
     unusedChars = list(series.keys())
@@ -155,7 +156,7 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
             timesPlayed += 1
     except KeyboardInterrupt:
         pass
-    return timesWon, timesPlayed, wrongChars
+    return timesWon, timesPlayed, wrongChars, 0, ""
 
 
 if __name__ == '__main__':
@@ -171,21 +172,26 @@ if __name__ == '__main__':
     general.add_argument(
         '--no-true-shuffle', help='let all the characters be asked before a character is repeated', action='store_true')
     general.add_argument('-V', '--version', action='version',
-                        version=f'%(prog)s {ver}')
+                         version=f'%(prog)s {ver}')
     # repeat options
     repeat = general.add_mutually_exclusive_group()
     repeat.add_argument(
         '-r', '--repeat', help='how often the training should be repeated. Default is 10. If this value is set to a negative number it will repeat until you cancel the program', type=int, default=None)
-    repeat.add_argument('-e', '--endless', help='repeat until you cancel the program. This is the same as "-r -1"', action='store_true')
-    repeat.add_argument('-R', '--series-repeat', help='repeat the series a certain amount of times', type=int, default=None)
+    repeat.add_argument(
+        '-e', '--endless', help='repeat until you cancel the program. This is the same as "-r -1"', action='store_true', default=False)
+    repeat.add_argument('-R', '--series-repeat',
+                        help='repeat the series a certain amount of times. This automatically activates --no-true-shuffle', type=int, default=None)
 
     # series options
     seriesGroup = parser.add_mutually_exclusive_group()
     seriesGroup.add_argument(
         '-s', '--series', help=f'series to train. If no series option is given this will use the default series. The default is {defaulSeries}', nargs='+', default=defaulSeries)
-    seriesGroup.add_argument('-a', '--all', help='train all series', action='store_true')
-    seriesGroup.add_argument('-c', '--custom', help='train a custom series. This option takes a list of characters. If you want to use a space in a character you have to use a backslash before the space. Example: "a b c" -> "a\\ b\\ c"', nargs='+')
-    seriesGroup.add_argument('-l', '--list', help='list every possible series', action='store_true')
+    seriesGroup.add_argument(
+        '-a', '--all', help='train all series', action='store_true')
+    seriesGroup.add_argument(
+        '-c', '--custom', help='train a custom series. This option takes a list of characters. If you want to use a space in a character you have to use a backslash before the space. Example: "a b c" -> "a\\ b\\ c"', nargs='+')
+    seriesGroup.add_argument(
+        '-l', '--list', help='list every possible series', action='store_true')
 
     args = parser.parse_args()
 
@@ -195,7 +201,8 @@ if __name__ == '__main__':
     # check which series to use
     series = {}
     if args.all:
-        series = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
+        series = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries,
+                  **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
     elif args.list:
         print("The following series are available:")
         print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, n, ga, za, da, ba, pa, kya, sha, cha, nya, hya, bya, pya, mya, rya")
@@ -203,7 +210,8 @@ if __name__ == '__main__':
     elif args.custom:
         for char in args.custom:
             char = char.replace("\\ ", " ")
-            allSeries = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
+            allSeries = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **
+                         zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
             if char in allSeries:
                 series[char] = allSeries[char]
             else:
@@ -274,7 +282,13 @@ if __name__ == '__main__':
     curses.cbreak()
     stdscr.keypad(True)
 
-    timesWon, timesPlayed, wrongChars = curses.wrapper(main, args, series)
+    timesWon, timesPlayed, wrongChars, exitCode, exitMsg = curses.wrapper(
+        main, args, series)
+
+    if exitCode == 1:
+        print(exitMsg)
+        exit(1)
+
     print()
     print(f"You won {timesWon} out of {timesPlayed} times!")
     print()
