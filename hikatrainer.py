@@ -8,7 +8,7 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.1.8"
+ver = "1.2.0"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -27,6 +27,7 @@ Version: {ver}
 License: GPLv3+
 """
 
+# Series
 aSeries = {'a': 'あ', 'i': 'い', 'u': 'う', 'e': 'え', 'o': 'お'}
 kaSeries = {'ka': 'か', 'ki': 'き', 'ku': 'く', 'ke': 'け', 'ko': 'こ'}
 gaSeries = {'ga': 'が', 'gi': 'ぎ', 'gu': 'ぐ', 'ge': 'げ', 'go': 'ご'}
@@ -58,6 +59,9 @@ rySeries = {'rya': 'りゃ', 'ryu': 'りゅ', 'ryo': 'りょ'}
 
 defaulSeries = ['a']
 
+# words
+words = {}
+
 
 def getChar(args: argparse.Namespace, series: dict, usedChars: list, unusedChars: list, k: str = "") -> str:
     """Returns a random character from the series and the key of the character. series is a dict with the keys being the keys and the values being the characters. k is the key of the last character."""
@@ -74,7 +78,7 @@ def getChar(args: argparse.Namespace, series: dict, usedChars: list, unusedChars
     return series[key], key, usedChars, unusedChars
 
 
-def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple[int, int]:
+def seriesTrainer(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple[int, int]:
     remainingRepeats = 10
     # setting remaining repeats to the length of the series if it is not set manually
     if args.repeat != None:
@@ -159,32 +163,40 @@ def main(stdscr: curses.window, args: argparse.Namespace, series: dict) -> Tuple
         pass
     return timesWon, timesPlayed, wrongChars, 0, ""
 
+def wordTrainer(stdscr: curses.window, args: argparse.Namespace):
+    return 0, 0, [], 0, ""
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description=description, epilog=epilog, formatter_class=argparse.RawDescriptionHelpFormatter)
 
+    parentParser = argparse.ArgumentParser(add_help=False)
+    
+    # options for every subcommand
+    
     # general options
-    general = parser.add_argument_group("general options")
+    general = parentParser.add_argument_group("general options")
     general.add_argument(
         '-d', '--debug', help='Enable debug mode', action='store_true')
     general.add_argument(
         '-v', '--verbose', help='increase output verbosity', action='count', default=0)
-    general.add_argument(
-        '--no-true-shuffle', help='let all the characters be asked before a character is repeated', action='store_true')
     general.add_argument('-V', '--version', action='version',
-                         version=f'%(prog)s {ver}')
+                         version=f'{ver}')
     # repeat options
-    repeat = general.add_mutually_exclusive_group()
+    repeat = parentParser.add_argument_group("repeat options")
     repeat.add_argument(
         '-r', '--repeat', help='how often the training should be repeated. Default is 10. If this value is set to a negative number it will repeat until you cancel the program', type=int, default=None)
     repeat.add_argument(
         '-e', '--endless', help='repeat until you cancel the program. This is the same as "-r -1"', action='store_true', default=False)
-    repeat.add_argument('-R', '--series-repeat',
-                        help='repeat the series a certain amount of times. This automatically activates --no-true-shuffle', type=int, default=None)
+
+    # Subcommands
+    mode = parser.add_subparsers(dest="system", help="The writing system you want to train")
+
+    seriesMode = mode.add_parser("series", help="Train reading single characters", parents=[parentParser])
+    wordMode = mode.add_parser("word", help="Train reading words", parents=[parentParser])
 
     # series options
-    seriesGroup = parser.add_mutually_exclusive_group()
+    seriesGroup = seriesMode.add_mutually_exclusive_group()
     seriesGroup.add_argument(
         '-s', '--series', help=f'series to train. If no series option is given this will use the default series. The default is {defaulSeries}', nargs='+', default=defaulSeries)
     seriesGroup.add_argument(
@@ -193,99 +205,129 @@ if __name__ == '__main__':
         '-c', '--custom', help='train a custom series. This option takes a list of characters. If you want to use a space in a character you have to use a backslash before the space. Example: "a b c" -> "a\\ b\\ c"', nargs='+')
     seriesGroup.add_argument(
         '-l', '--list', help='list every possible series', action='store_true')
+    
+    # series specific other options
+    otherOptions = seriesMode.add_argument_group("other options")
+    otherOptions.add_argument(
+        '--no-true-shuffle', help='let all the characters be asked before a character is repeated', action='store_true')
+    otherOptions.add_argument('-R', '--series-repeat',
+                        help='repeat the series a certain amount of times. This automatically activates --no-true-shuffle and overrites the other repeat options', type=int, default=None)
+    
 
+    # word options
+    # do word options
+
+    # parse args
     args = parser.parse_args()
 
     if args.endless:
         args.repeat = -1
 
-    # check which series to use
-    series = {}
-    if args.all:
-        series = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries,
-                  **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
-    elif args.list:
-        print("The following series are available:")
-        print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, n, ga, za, da, ba, pa, kya, sha, cha, nya, hya, bya, pya, mya, rya")
-        exit(0)
-    elif args.custom:
-        for char in args.custom:
-            char = char.replace("\\ ", " ")
-            allSeries = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **
-                         zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
-            if char in allSeries:
-                series[char] = allSeries[char]
-            else:
-                print(f'Character "{char}" not found')
-                exit(1)
+    if args.system == "series":
+        # check which series to use
+        series = {}
+        if args.all:
+            series = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries,
+                      **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
+        elif args.list:
+            print("The following series are available:")
+            print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, n, ga, za, da, ba, pa, kya, sha, cha, nya, hya, bya, pya, mya, rya")
+            exit(0)
+        elif args.custom:
+            for char in args.custom:
+                char = char.replace("\\ ", " ")
+                allSeries = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **
+                             zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
+                if char in allSeries:
+                    series[char] = allSeries[char]
+                else:
+                    print(f'Character "{char}" not found')
+                    exit(1)
+        else:
+            for s in args.series:
+                if s == 'a':
+                    series.update(aSeries)
+                elif s == 'ka':
+                    series.update(kaSeries)
+                elif s == 'ga':
+                    series.update(gaSeries)
+                elif s == 'sa':
+                    series.update(saSeries)
+                elif s == 'za':
+                    series.update(zaSeries)
+                elif s == 'ta':
+                    series.update(taSeries)
+                elif s == 'da':
+                    series.update(daSeries)
+                elif s == 'na':
+                    series.update(naSeries)
+                elif s == 'ha':
+                    series.update(haSeries)
+                elif s == 'ba':
+                    series.update(baSeries)
+                elif s == 'pa':
+                    series.update(paSeries)
+                elif s == 'ma':
+                    series.update(maSeries)
+                elif s == 'ya':
+                    series.update(yaSeries)
+                elif s == 'ra':
+                    series.update(raSeries)
+                elif s == 'wa':
+                    series.update(waSeries)
+                elif s == 'n':
+                    series.update(nSeries)
+                elif s == 'kya':
+                    series.update(kySeries)
+                elif s == 'gya':
+                    series.update(gySeries)
+                elif s == 'sha':
+                    series.update(shSeries)
+                elif s == 'ja':
+                    series.update(jSeries)
+                elif s == 'cha':
+                    series.update(chSeries)
+                elif s == 'nya':
+                    series.update(nySeries)
+                elif s == 'hya':
+                    series.update(hySeries)
+                elif s == 'bya':
+                    series.update(bySeries)
+                elif s == 'pya':
+                    series.update(pySeries)
+                elif s == 'mya':
+                    series.update(mySeries)
+                elif s == 'rya':
+                    series.update(rySeries)
+                else:
+                    print(f"series {s} not found")
+                    exit(1)
+    elif args.system == "word":
+        pass
     else:
-        for s in args.series:
-            if s == 'a':
-                series.update(aSeries)
-            elif s == 'ka':
-                series.update(kaSeries)
-            elif s == 'ga':
-                series.update(gaSeries)
-            elif s == 'sa':
-                series.update(saSeries)
-            elif s == 'za':
-                series.update(zaSeries)
-            elif s == 'ta':
-                series.update(taSeries)
-            elif s == 'da':
-                series.update(daSeries)
-            elif s == 'na':
-                series.update(naSeries)
-            elif s == 'ha':
-                series.update(haSeries)
-            elif s == 'ba':
-                series.update(baSeries)
-            elif s == 'pa':
-                series.update(paSeries)
-            elif s == 'ma':
-                series.update(maSeries)
-            elif s == 'ya':
-                series.update(yaSeries)
-            elif s == 'ra':
-                series.update(raSeries)
-            elif s == 'wa':
-                series.update(waSeries)
-            elif s == 'n':
-                series.update(nSeries)
-            elif s == 'kya':
-                series.update(kySeries)
-            elif s == 'gya':
-                series.update(gySeries)
-            elif s == 'sha':
-                series.update(shSeries)
-            elif s == 'ja':
-                series.update(jSeries)
-            elif s == 'cha':
-                series.update(chSeries)
-            elif s == 'nya':
-                series.update(nySeries)
-            elif s == 'hya':
-                series.update(hySeries)
-            elif s == 'bya':
-                series.update(bySeries)
-            elif s == 'pya':
-                series.update(pySeries)
-            elif s == 'mya':
-                series.update(mySeries)
-            elif s == 'rya':
-                series.update(rySeries)
-            else:
-                print(f"series {s} not found")
-                exit(1)
-
+        print("No mode given")
+        exit(1)
+    
     stdscr = curses.initscr()
     curses.noecho()
     curses.cbreak()
     stdscr.keypad(True)
 
-    timesWon, timesPlayed, wrongChars, exitCode, exitMsg = curses.wrapper(
-        main, args, series)
+    # set variables
+    timesWon, timesPlayed, wrongChars, exitCode, exitMsg = 0, 0, [], 0, ""
+    
+    # start the given mode
+    if args.system == "series":
+        timesWon, timesPlayed, wrongChars, exitCode, exitMsg = curses.wrapper(
+            seriesTrainer, args, series)
+    elif args.system == "word":
+        timesWon, timesPlayed, wrongChars, exitCode, exitMsg = curses.wrapper(
+            wordTrainer, args)
+    else:
+        print("No system selected")
+        exit(1)
 
+    # print error message if there is one
     if exitCode == 1:
         print(exitMsg)
         exit(1)
