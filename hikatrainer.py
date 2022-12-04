@@ -8,17 +8,20 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.3.0"
+ver = "1.3.1"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
 
 Example:
-hikatrainer.py --series ka ga
-This command would let you train the ka and ga series.
+hikatrainer.py series -s ka ga
+This command would let you train the ka and ga series in hiragana.
 
-hikatrainer.py --all
-This command would let you train every series. 
+hikatrainer.py series --all -e
+This command would let you train every series in hiragana until you cancle the program with ctrl + c. 
+
+hikatrainer.py series -s ka ga -r 100 -S katakana
+This command would let you train the ka and ga series in katakana 100 times.
 
 """
 epilog = f"""
