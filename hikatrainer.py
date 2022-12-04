@@ -8,7 +8,7 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.2.0"
+ver = "1.3.0"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -28,39 +28,240 @@ License: GPLv3+
 """
 
 # Series
-aSeries = {'a': 'あ', 'i': 'い', 'u': 'う', 'e': 'え', 'o': 'お'}
-kaSeries = {'ka': 'か', 'ki': 'き', 'ku': 'く', 'ke': 'け', 'ko': 'こ'}
-gaSeries = {'ga': 'が', 'gi': 'ぎ', 'gu': 'ぐ', 'ge': 'げ', 'go': 'ご'}
-saSeries = {'sa': 'さ', 'shi': 'し', 'su': 'す', 'se': 'せ', 'so': 'そ'}
-zaSeries = {'za': 'ざ', 'ji': 'じ', 'zu': 'ず', 'ze': 'ぜ', 'zo': 'ぞ'}
-taSeries = {'ta': 'た', 'chi': 'ち', 'tsu': 'つ', 'te': 'て', 'to': 'と'}
-daSeries = {'da': 'だ', 'ji': 'ぢ', 'zu': 'づ', 'de': 'で', 'do': 'ど'}
-naSeries = {'na': 'な', 'ni': 'に', 'nu': 'ぬ', 'ne': 'ね', 'no': 'の'}
-haSeries = {'ha': 'は', 'hi': 'ひ', 'fu': 'ふ', 'he': 'へ', 'ho': 'ほ'}
-baSeries = {'ba': 'ば', 'bi': 'び', 'bu': 'ぶ', 'be': 'べ', 'bo': 'ぼ'}
-paSeries = {'pa': 'ぱ', 'pi': 'ぴ', 'pu': 'ぷ', 'pe': 'ぺ', 'po': 'ぽ'}
-maSeries = {'ma': 'ま', 'mi': 'み', 'mu': 'む', 'me': 'め', 'mo': 'も'}
-yaSeries = {'ya': 'や', 'yu': 'ゆ', 'yo': 'よ'}
-raSeries = {'ra': 'ら', 'ri': 'り', 'ru': 'る', 're': 'れ', 'ro': 'ろ'}
-waSeries = {'wa': 'わ', 'wo': 'を'}
-nSeries = {'n': 'ん'}
+# Hiragana
+aSeriesHiragana = {'a': 'あ', 'i': 'い', 'u': 'う', 'e': 'え', 'o': 'お'}
+kaSeriesHiragana = {'ka': 'か', 'ki': 'き', 'ku': 'く', 'ke': 'け', 'ko': 'こ'}
+gaSeriesHiragana = {'ga': 'が', 'gi': 'ぎ', 'gu': 'ぐ', 'ge': 'げ', 'go': 'ご'}
+saSeriesHiragana = {'sa': 'さ', 'shi': 'し', 'su': 'す', 'se': 'せ', 'so': 'そ'}
+zaSeriesHiragana = {'za': 'ざ', 'ji': 'じ', 'zu': 'ず', 'ze': 'ぜ', 'zo': 'ぞ'}
+taSeriesHiragana = {'ta': 'た', 'chi': 'ち', 'tsu': 'つ', 'te': 'て', 'to': 'と'}
+daSeriesHiragana = {'da': 'だ', 'ji': 'ぢ', 'zu': 'づ', 'de': 'で', 'do': 'ど'}
+naSeriesHiragana = {'na': 'な', 'ni': 'に', 'nu': 'ぬ', 'ne': 'ね', 'no': 'の'}
+haSeriesHiragana = {'ha': 'は', 'hi': 'ひ', 'fu': 'ふ', 'he': 'へ', 'ho': 'ほ'}
+baSeriesHiragana = {'ba': 'ば', 'bi': 'び', 'bu': 'ぶ', 'be': 'べ', 'bo': 'ぼ'}
+paSeriesHiragana = {'pa': 'ぱ', 'pi': 'ぴ', 'pu': 'ぷ', 'pe': 'ぺ', 'po': 'ぽ'}
+maSeriesHiragana = {'ma': 'ま', 'mi': 'み', 'mu': 'む', 'me': 'め', 'mo': 'も'}
+yaSeriesHiragana = {'ya': 'や', 'yu': 'ゆ', 'yo': 'よ'}
+raSeriesHiragana = {'ra': 'ら', 'ri': 'り', 'ru': 'る', 're': 'れ', 'ro': 'ろ'}
+waSeriesHiragana = {'wa': 'わ', 'wo': 'を'}
+nSeriesHiragana = {'n': 'ん'}
 
-kySeries = {'kya': 'きゃ', 'kyu': 'きゅ', 'kyo': 'きょ'}
-gySeries = {'gya': 'ぎゃ', 'gyu': 'ぎゅ', 'gyo': 'ぎょ'}
-shSeries = {'sha': 'しゃ', 'shu': 'しゅ', 'sho': 'しょ'}
-jSeries = {'ja': 'じゃ', 'ju': 'じゅ', 'jo': 'じょ'}
-chSeries = {'cha': 'ちゃ', 'chu': 'ちゅ', 'cho': 'ちょ'}
-nySeries = {'nya': 'にゃ', 'nyu': 'にゅ', 'nyo': 'にょ'}
-hySeries = {'hya': 'ひゃ', 'hyu': 'ひゅ', 'hyo': 'ひょ'}
-bySeries = {'bya': 'びゃ', 'byu': 'びゅ', 'byo': 'びょ'}
-pySeries = {'pya': 'ぴゃ', 'pyu': 'ぴゅ', 'pyo': 'ぴょ'}
-mySeries = {'mya': 'みゃ', 'myu': 'みゅ', 'myo': 'みょ'}
-rySeries = {'rya': 'りゃ', 'ryu': 'りゅ', 'ryo': 'りょ'}
+kySeriesHiragana = {'kya': 'きゃ', 'kyu': 'きゅ', 'kyo': 'きょ'}
+gySeriesHiragana = {'gya': 'ぎゃ', 'gyu': 'ぎゅ', 'gyo': 'ぎょ'}
+shSeriesHiragana = {'sha': 'しゃ', 'shu': 'しゅ', 'sho': 'しょ'}
+jSeriesHiragana = {'ja': 'じゃ', 'ju': 'じゅ', 'jo': 'じょ'}
+chSeriesHiragana = {'cha': 'ちゃ', 'chu': 'ちゅ', 'cho': 'ちょ'}
+nySeriesHiragana = {'nya': 'にゃ', 'nyu': 'にゅ', 'nyo': 'にょ'}
+hySeriesHiragana = {'hya': 'ひゃ', 'hyu': 'ひゅ', 'hyo': 'ひょ'}
+bySeriesHiragana = {'bya': 'びゃ', 'byu': 'びゅ', 'byo': 'びょ'}
+pySeriesHiragana = {'pya': 'ぴゃ', 'pyu': 'ぴゅ', 'pyo': 'ぴょ'}
+mySeriesHiragana = {'mya': 'みゃ', 'myu': 'みゅ', 'myo': 'みょ'}
+rySeriesHiragana = {'rya': 'りゃ', 'ryu': 'りゅ', 'ryo': 'りょ'}
+
+# Katakana
+aSeriesKatakana = {'a': 'ア', 'i': 'イ', 'u': 'ウ', 'e': 'エ', 'o': 'オ'}
+kaSeriesKatakana = {'ka': 'カ', 'ki': 'キ', 'ku': 'ク', 'ke': 'ケ', 'ko': 'コ'}
+gaSeriesKatakana = {'ga': 'ガ', 'gi': 'ギ', 'gu': 'グ', 'ge': 'ゲ', 'go': 'ゴ'}
+saSeriesKatakana = {'sa': 'サ', 'shi': 'シ', 'su': 'ス', 'se': 'セ', 'so': 'ソ'}
+zaSeriesKatakana = {'za': 'ザ', 'ji': 'ジ', 'zu': 'ズ', 'ze': 'ゼ', 'zo': 'ゾ'}
+taSeriesKatakana = {'ta': 'タ', 'chi': 'チ', 'tsu': 'ツ', 'te': 'テ', 'to': 'ト'}
+daSeriesKatakana = {'da': 'ダ', 'ji': 'ヂ', 'zu': 'ヅ', 'de': 'デ', 'do': 'ド'}
+naSeriesKatakana = {'na': 'ナ', 'ni': 'ニ', 'nu': 'ヌ', 'ne': 'ネ', 'no': 'ノ'}
+haSeriesKatakana = {'ha': 'ハ', 'hi': 'ヒ', 'fu': 'フ', 'he': 'ヘ', 'ho': 'ホ'}
+baSeriesKatakana = {'ba': 'バ', 'bi': 'ビ', 'bu': 'ブ', 'be': 'ベ', 'bo': 'ボ'}
+paSeriesKatakana = {'pa': 'パ', 'pi': 'ピ', 'pu': 'プ', 'pe': 'ペ', 'po': 'ポ'}
+maSeriesKatakana = {'ma': 'マ', 'mi': 'ミ', 'mu': 'ム', 'me': 'メ', 'mo': 'モ'}
+yaSeriesKatakana = {'ya': 'ヤ', 'yu': 'ユ', 'yo': 'ヨ'}
+raSeriesKatakana = {'ra': 'ラ', 'ri': 'リ', 'ru': 'ル', 're': 'レ', 'ro': 'ロ'}
+waSeriesKatakana = {'wa': 'ワ', 'wo': 'ヲ'}
+nSeriesKatakana = {'n': 'ン'}
+
+kySeriesKatakana = {'kya': 'キャ', 'kyu': 'キュ', 'kyo': 'キョ'}
+gySeriesKatakana = {'gya': 'ギャ', 'gyu': 'ギュ', 'gyo': 'ギョ'}
+shSeriesKatakana = {'sha': 'シャ', 'shu': 'シュ', 'sho': 'ショ'}
+jSeriesKatakana = {'ja': 'ジャ', 'ju': 'ジュ', 'jo': 'ジョ'}
+chSeriesKatakana = {'cha': 'チャ', 'chu': 'チュ', 'cho': 'チョ'}
+nySeriesKatakana = {'nya': 'ニャ', 'nyu': 'ニュ', 'nyo': 'ニョ'}
+hySeriesKatakana = {'hya': 'ヒャ', 'hyu': 'ヒュ', 'hyo': 'ヒョ'}
+bySeriesKatakana = {'bya': 'ビャ', 'byu': 'ビュ', 'byo': 'ビョ'}
+pySeriesKatakana = {'pya': 'ピャ', 'pyu': 'ピュ', 'pyo': 'ピョ'}
+mySeriesKatakana = {'mya': 'ミャ', 'myu': 'ミュ', 'myo': 'ミョ'}
+rySeriesKatakana = {'rya': 'リャ', 'ryu': 'リュ', 'ryo': 'リョ'}
+
 
 defaulSeries = ['a']
 
 # words
 words = {}
+
+
+def getSeries(args: argparse.Namespace, series: dict) -> dict:
+    returnSeries = {}
+    for s in args.series:
+        # TODO: solve this more elegantly
+        if s == 'a':
+            if args.system == "hiragana":
+                returnSeries.update(aSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(aSeriesKatakana)
+        elif s == 'ka':
+            if args.system == "hiragana":
+                returnSeries.update(kaSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(kaSeriesKatakana)
+        elif s == 'ga':
+            if args.system == "hiragana":
+                returnSeries.update(gaSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(gaSeriesKatakana)
+        elif s == 'sa':
+            if args.system == "hiragana":
+                returnSeries.update(saSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(saSeriesKatakana)
+        elif s == 'za':
+            if args.system == "hiragana":
+                returnSeries.update(zaSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(zaSeriesKatakana)
+        elif s == 'ta':
+            if args.system == "hiragana":
+                returnSeries.update(taSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(taSeriesKatakana)
+        elif s == 'da':
+            if args.system == "hiragana":
+                returnSeries.update(daSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(daSeriesKatakana)
+        elif s == 'na':
+            if args.system == "hiragana":
+                returnSeries.update(naSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(naSeriesKatakana)
+        elif s == 'ha':
+            if args.system == "hiragana":
+                returnSeries.update(haSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(haSeriesKatakana)
+        elif s == 'ba':
+            if args.system == "hiragana":
+                returnSeries.update(baSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(baSeriesKatakana)
+        elif s == 'pa':
+            if args.system == "hiragana":
+                returnSeries.update(paSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(paSeriesKatakana)
+        elif s == 'ma':
+            if args.system == "hiragana":
+                returnSeries.update(maSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(maSeriesKatakana)
+        elif s == 'ya':
+            if args.system == "hiragana":
+                returnSeries.update(yaSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(yaSeriesKatakana)
+        elif s == 'ra':
+            if args.system == "hiragana":
+                returnSeries.update(raSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(raSeriesKatakana)
+        elif s == 'wa':
+            if args.system == "hiragana":
+                returnSeries.update(waSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(waSeriesKatakana)
+        elif s == 'n':
+            if args.system == "hiragana":
+                returnSeries.update(nSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(nSeriesKatakana)
+        elif s == 'kya':
+            if args.system == "hiragana":
+                returnSeries.update(kySeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(kySeriesKatakana)
+        elif s == 'gya':
+            if args.system == "hiragana":
+                returnSeries.update(gySeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(gySeriesKatakana)
+        elif s == 'sha':
+            if args.system == "hiragana":
+                returnSeries.update(shSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(shSeriesKatakana)
+        elif s == 'ja':
+            if args.system == "hiragana":
+                returnSeries.update(jSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(jSeriesKatakana)
+        elif s == 'cha':
+            if args.system == "hiragana":
+                returnSeries.update(chSeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(chSeriesKatakana)
+        elif s == 'nya':
+            if args.system == "hiragana":
+                returnSeries.update(nySeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(nySeriesKatakana)
+        elif s == 'hya':
+            if args.system == "hiragana":
+                returnSeries.update(hySeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(hySeriesKatakana)
+        elif s == 'bya':
+            if args.system == "hiragana":
+                returnSeries.update(bySeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(bySeriesKatakana)
+        elif s == 'pya':
+            if args.system == "hiragana":
+                returnSeries.update(pySeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(pySeriesKatakana)
+        elif s == 'mya':
+            if args.system == "hiragana":
+                returnSeries.update(mySeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(mySeriesKatakana)
+        elif s == 'rya':
+            if args.system == "hiragana":
+                returnSeries.update(rySeriesHiragana)
+            elif args.system == "katakana":
+                returnSeries.update(rySeriesKatakana)
+        else:
+            print("Error: Invalid series: " + s)
+            exit(1)
+    return returnSeries
+
+
+def getCustomSeries(args: argparse.Namespace, inputSeries: dict) -> dict:
+    if len(args.custom) == 1:
+        print('Error: Custom series must be at least 2 characters long')
+        exit(1)
+    series = {}
+    for char in args.custom:
+        char = char.replace("\\ ", " ")
+        if char in series:
+            print('Error: Custom series cannot contain duplicate characters')
+            exit(1)
+        if char in inputSeries:
+            series[char] = inputSeries[char]
+        else:
+            system = ""
+            if args.system == "hiragana":
+                system = "Hiragana"
+            elif args.system == "katakana":
+                system = "Katakana"
+
+            print(f'{system} Character "{char}" not found')
+            exit(1)
+    return series
 
 
 def getChar(args: argparse.Namespace, series: dict, usedChars: list, unusedChars: list, k: str = "") -> str:
@@ -163,17 +364,19 @@ def seriesTrainer(stdscr: curses.window, args: argparse.Namespace, series: dict)
         pass
     return timesWon, timesPlayed, wrongChars, 0, ""
 
+
 def wordTrainer(stdscr: curses.window, args: argparse.Namespace):
     return 0, 0, [], 0, ""
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description=description, epilog=epilog, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parentParser = argparse.ArgumentParser(add_help=False)
-    
+
     # options for every subcommand
-    
+
     # general options
     general = parentParser.add_argument_group("general options")
     general.add_argument(
@@ -190,12 +393,17 @@ if __name__ == '__main__':
         '-e', '--endless', help='repeat until you cancel the program. This is the same as "-r -1"', action='store_true', default=False)
 
     # Subcommands
-    mode = parser.add_subparsers(dest="system", help="The writing system you want to train")
+    mode = parser.add_subparsers(
+        dest="mode", help="The training mode you want to use")
 
-    seriesMode = mode.add_parser("series", help="Train reading single characters", parents=[parentParser])
-    wordMode = mode.add_parser("word", help="Train reading words", parents=[parentParser])
+    seriesMode = mode.add_parser(
+        "series", help="Train reading single characters", parents=[parentParser])
+    wordMode = mode.add_parser(
+        "word", help="Train reading words", parents=[parentParser])
 
     # series options
+    seriesMode.add_argument('-S', '--system', help='The writing system you want to train. Default is hiragana',
+                            choices=['hiragana', 'katakana'], default='hiragana')
     seriesGroup = seriesMode.add_mutually_exclusive_group()
     seriesGroup.add_argument(
         '-s', '--series', help=f'series to train. If no series option is given this will use the default series. The default is {defaulSeries}', nargs='+', default=defaulSeries)
@@ -205,14 +413,13 @@ if __name__ == '__main__':
         '-c', '--custom', help='train a custom series. This option takes a list of characters. If you want to use a space in a character you have to use a backslash before the space. Example: "a b c" -> "a\\ b\\ c"', nargs='+')
     seriesGroup.add_argument(
         '-l', '--list', help='list every possible series', action='store_true')
-    
+
     # series specific other options
     otherOptions = seriesMode.add_argument_group("other options")
     otherOptions.add_argument(
         '--no-true-shuffle', help='let all the characters be asked before a character is repeated', action='store_true')
     otherOptions.add_argument('-R', '--series-repeat',
-                        help='repeat the series a certain amount of times. This automatically activates --no-true-shuffle and overrites the other repeat options', type=int, default=None)
-    
+                              help='repeat the series a certain amount of times. This automatically activates --no-true-shuffle and overrites the other repeat options', type=int, default=None)
 
     # word options
     # do word options
@@ -220,94 +427,48 @@ if __name__ == '__main__':
     # parse args
     args = parser.parse_args()
 
+    if args.mode == "series":
+        # check which series to use
+        allHiragana = {**aSeriesHiragana, **kaSeriesHiragana, **gaSeriesHiragana, **saSeriesHiragana, **zaSeriesHiragana, **taSeriesHiragana, **daSeriesHiragana, **naSeriesHiragana, **haSeriesHiragana, **baSeriesHiragana, **paSeriesHiragana, **maSeriesHiragana, **yaSeriesHiragana, **raSeriesHiragana, **waSeriesHiragana, **nSeriesHiragana, **kySeriesHiragana, **gySeriesHiragana, **shSeriesHiragana, **jSeriesHiragana, **chSeriesHiragana, **nySeriesHiragana, **hySeriesHiragana, **bySeriesHiragana, **pySeriesHiragana, **mySeriesHiragana, **rySeriesHiragana}
+        allKatakana = {**aSeriesKatakana, **kaSeriesKatakana, **gaSeriesKatakana, **saSeriesKatakana, **zaSeriesKatakana, **taSeriesKatakana, **daSeriesKatakana, **naSeriesKatakana, **haSeriesKatakana, **baSeriesKatakana, **paSeriesKatakana, **maSeriesKatakana, **yaSeriesKatakana, **raSeriesKatakana, **waSeriesKatakana, **nSeriesKatakana, **kySeriesKatakana, **gySeriesKatakana, **shSeriesKatakana, **jSeriesKatakana, **chSeriesKatakana, **nySeriesKatakana, **hySeriesKatakana, **bySeriesKatakana, **pySeriesKatakana, **mySeriesKatakana, **rySeriesKatakana}
+        series = {}
+        if args.all:
+            if args.system == "hiragana":
+                series = allHiragana
+            elif args.system == "katakana":
+                series = allKatakana
+            else:
+                print("Error: Unknown system")
+                exit(1)
+        elif args.list:
+            print("The following series are available:")
+            print("a, ka, ga, sa, za, ta, da, na, ha, ba, pa, ma, ya, ra, wa, n, kya, gya, sha, ja, cha, nya, hya, bya, pya, mya, rya")
+            exit(0)
+        elif args.custom:
+            if args.system == "hiragana":
+                series = getCustomSeries(args, allHiragana)
+            elif args.system == "katakana":
+                series = getCustomSeries(args, allKatakana)
+            else:
+                print("Invalid system")
+                exit(1)
+        else:
+            if args.system == "hiragana":
+                series = getSeries(args, allHiragana)
+            elif args.system == "katakana":
+                series = getSeries(args, allKatakana)
+            else:
+                print("Invalid system")
+                exit(1)
+    elif args.mode == "word":
+        pass
+    else:
+        parser.print_help()
+        exit(1)
+
     if args.endless:
         args.repeat = -1
 
-    if args.system == "series":
-        # check which series to use
-        series = {}
-        if args.all:
-            series = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **zaSeries,
-                      **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
-        elif args.list:
-            print("The following series are available:")
-            print("a, ka, sa, ta, na, ha, ma, ya, ra, wa, n, ga, za, da, ba, pa, kya, sha, cha, nya, hya, bya, pya, mya, rya")
-            exit(0)
-        elif args.custom:
-            for char in args.custom:
-                char = char.replace("\\ ", " ")
-                allSeries = {**aSeries, **kaSeries, **saSeries, **taSeries, **naSeries, **haSeries, **maSeries, **yaSeries, **raSeries, **waSeries, **gaSeries, **
-                             zaSeries, **daSeries, **baSeries, **paSeries, **kySeries, **shSeries, **chSeries, **nySeries, **hySeries, **bySeries, **pySeries, **mySeries, **rySeries}
-                if char in allSeries:
-                    series[char] = allSeries[char]
-                else:
-                    print(f'Character "{char}" not found')
-                    exit(1)
-        else:
-            for s in args.series:
-                if s == 'a':
-                    series.update(aSeries)
-                elif s == 'ka':
-                    series.update(kaSeries)
-                elif s == 'ga':
-                    series.update(gaSeries)
-                elif s == 'sa':
-                    series.update(saSeries)
-                elif s == 'za':
-                    series.update(zaSeries)
-                elif s == 'ta':
-                    series.update(taSeries)
-                elif s == 'da':
-                    series.update(daSeries)
-                elif s == 'na':
-                    series.update(naSeries)
-                elif s == 'ha':
-                    series.update(haSeries)
-                elif s == 'ba':
-                    series.update(baSeries)
-                elif s == 'pa':
-                    series.update(paSeries)
-                elif s == 'ma':
-                    series.update(maSeries)
-                elif s == 'ya':
-                    series.update(yaSeries)
-                elif s == 'ra':
-                    series.update(raSeries)
-                elif s == 'wa':
-                    series.update(waSeries)
-                elif s == 'n':
-                    series.update(nSeries)
-                elif s == 'kya':
-                    series.update(kySeries)
-                elif s == 'gya':
-                    series.update(gySeries)
-                elif s == 'sha':
-                    series.update(shSeries)
-                elif s == 'ja':
-                    series.update(jSeries)
-                elif s == 'cha':
-                    series.update(chSeries)
-                elif s == 'nya':
-                    series.update(nySeries)
-                elif s == 'hya':
-                    series.update(hySeries)
-                elif s == 'bya':
-                    series.update(bySeries)
-                elif s == 'pya':
-                    series.update(pySeries)
-                elif s == 'mya':
-                    series.update(mySeries)
-                elif s == 'rya':
-                    series.update(rySeries)
-                else:
-                    print(f"series {s} not found")
-                    exit(1)
-    elif args.system == "word":
-        pass
-    else:
-        print("No mode given")
-        exit(1)
-    
     stdscr = curses.initscr()
     curses.noecho()
     curses.cbreak()
@@ -315,12 +476,12 @@ if __name__ == '__main__':
 
     # set variables
     timesWon, timesPlayed, wrongChars, exitCode, exitMsg = 0, 0, [], 0, ""
-    
+
     # start the given mode
-    if args.system == "series":
+    if args.mode == "series":
         timesWon, timesPlayed, wrongChars, exitCode, exitMsg = curses.wrapper(
             seriesTrainer, args, series)
-    elif args.system == "word":
+    elif args.mode == "word":
         timesWon, timesPlayed, wrongChars, exitCode, exitMsg = curses.wrapper(
             wordTrainer, args)
     else:
