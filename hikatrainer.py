@@ -102,6 +102,8 @@ def getSeries(args: argparse.Namespace, series: dict) -> dict:
     returnSeries = {}
     for s in args.series:
         # TODO: solve this more elegantly
+        #  make new dict --> {ka: {**kaSeriesHiragana}, ga: {**gaSeriesHiragana}} etc
+        # just check for s in dict.keys() and update with dict[s] oder so?
         if s == 'a':
             if args.system == "hiragana":
                 returnSeries.update(aSeriesHiragana)
