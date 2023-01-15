@@ -8,7 +8,7 @@ from typing import Tuple
 from collections import Counter
 
 
-ver = "1.3.1"
+ver = "1.3.2"
 author = "EldosHD"
 description = f"""
 TODO: Insert description
@@ -425,6 +425,7 @@ if __name__ == '__main__':
         '--no-true-shuffle', help='let all the characters be asked before a character is repeated', action='store_true')
     otherOptions.add_argument('-R', '--series-repeat',
                               help='repeat the series a certain amount of times. This automatically activates --no-true-shuffle and overrites the other repeat options', type=int, default=None)
+    otherOptions.add_argument('--compact', help='show the results in a compact way, for easy copy and pasting', action='store_true', default=False)
 
     # word options
     # do word options
@@ -502,4 +503,8 @@ if __name__ == '__main__':
     print(f"You won {timesWon} out of {timesPlayed} times!")
     print()
     for k, v in Counter(wrongChars).items():
-        print(f"{series.get(k)} ({k}) was wrong {v} times")
+        if args.compact:
+            print(k, end=" ")
+        else:
+            print(f"{series.get(k)} ({k}) was wrong {v} times")
+    print()
